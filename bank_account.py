@@ -51,12 +51,12 @@ class BankAccount:
     self.balance += amount
     self.add_transaction("deposit", amount, True) # add the transaction to the transaction history
 
-  # Function name: withdrawal
+  # Function name: withdraw
   # Input: self - the BankAccount object
   #        amount - the amount to be removed from the balance
   # Output: the amount withdrawn if successful
   # Raises: error if not enough is in the balance
-  def withdrawal(self, amount):
+  def withdraw(self, amount):
     if self.balance >= amount:
       self.balance -= amount
       self.add_transaction("withdrawal", amount, True)  # add the transaction to the transaction history
@@ -95,7 +95,7 @@ def get_user_withdraw(account):
   withdraw_amount = float(input("Input the amount to withdraw: "))
   try:
     account.withdraw(withdraw_amount)
-  except Exception:
-    print(Exception)
+  except Exception as e:
+    print(e)
   else:
     print("Amount withdrawn successfully.")
