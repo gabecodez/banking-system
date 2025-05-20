@@ -95,7 +95,7 @@ def get_user_withdraw(account):
   withdraw_amount = float(input("Input the amount to withdraw: "))
   try:
     account.withdraw(withdraw_amount)
-  except Exception as e: # test
+  except Exception as e:
     print(e)
   else:
     print("Amount withdrawn successfully.")
