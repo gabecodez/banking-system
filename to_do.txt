@@ -1,0 +1,3 @@
+To-do:
+
+- fix withdraw function such that it provides a useful exception message and also works
