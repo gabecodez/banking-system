@@ -6,6 +6,7 @@
 import classes.bank_account as bank_account
 import functions.interface as interface
 
+# setup user account
 name = input("Please enter your name: ") # prompt the user for their name
 initial_balance = float(input("Please enter your initial balance: ")) # prompt the user for the initial balance
 my_account = bank_account.BankAccount(name, initial_balance) # create user account
@@ -14,6 +15,7 @@ print(my_account) # print the account
 
 user_input = ""
 
+# user input loop
 while user_input != "exit":
   user_input = input("Options: print, deposit, withdraw, exit: ") # get the user input
 
