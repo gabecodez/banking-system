@@ -3,7 +3,8 @@
 # Date: 2025-05-20
 # Purpose: This script handles a basic bank account.
 
-import bank_account
+import classes.bank_account as bank_account
+import functions.interface as interface
 
 name = input("Please enter your name: ") # prompt the user for their name
 initial_balance = float(input("Please enter your initial balance: ")) # prompt the user for the initial balance
@@ -18,9 +19,9 @@ while user_input != "exit":
 
   match user_input:
     case "print":
-      bank_account.print_account_details(my_account) # print out the user details
+      interface.print_account_details(my_account) # print out the user details
     case "deposit":
-      bank_account.get_user_deposit(my_account) # add money
+      interface.get_user_deposit(my_account) # add money
     case "withdraw":
-      bank_account.get_user_withdraw(my_account) # remove money
+      interface.get_user_withdraw(my_account) # remove money
 
