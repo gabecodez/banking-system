@@ -16,7 +16,7 @@ print(my_account) # print the account
 user_input = "" # for handling the user loop
 
 # user input loop
-while user_input != "exit":
+while user_input != "exit" or user_input != "e":
     user_input = input("Options: print, plot, deposit, withdraw, exit: ").strip().lower() # get the user input
 
     match user_input:
