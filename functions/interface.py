@@ -23,6 +23,11 @@ def print_account_details(account):
 # Output: none
 # Raises: none
 def plot_account_details(account):
+    # check to make sure that the data to plot is not empty
+    if len(account.transactions_history) <= 0:
+        print("No transactions to plot found.")
+        return
+
     x = []
     y = []
 
