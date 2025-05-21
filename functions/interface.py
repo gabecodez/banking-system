@@ -4,6 +4,8 @@
 # Purpose: This script handles the functions for interacting with a BankAccount
 #          object via the command line.
 
+import matplotlib.pyplot as plt
+
 # Function name: print_account_details
 # Purpose: prints out the account details of a given account
 # Input: BankAccount account - the BankAccount object to be printed
@@ -14,6 +16,33 @@ def print_account_details(account):
   # loop through and print the transactions
   for transaction in account.transactions_history:
     print(transaction)
+
+# Function name: plot_account_details
+# Purpose: plots the account details of a given account using Matplotlib
+# Input: BankAccount account - the BankAccount object to be plotted
+# Output: none
+# Raises: none
+def plot_account_details(account):
+  x = []
+  y = []
+
+  curr_balance = account.init_balance
+  # loop through and subtract the transactions from the initial balance and add to the list
+  for index, transaction in enumerate(account.transactions_history):
+    if transaction.successful:
+      if transaction.type == "deposit":
+        curr_balance += transaction.amount
+      elif transaction.type == "withdrawal":
+        curr_balance -= transaction.amount
+      x.append(index)
+      y.append(curr_balance)
+
+  plt.plot(x, y)
+  plt.title("Account Balance")
+  plt.xlabel("Transactions")
+  plt.ylabel("Cost")
+  plt.grid(True)
+  plt.show()
 
 # Function name: get_user_deposit
 # Purpose: gets the user deposit and then submits it

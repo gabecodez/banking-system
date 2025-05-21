@@ -9,6 +9,7 @@ import classes.transaction as transaction
 # Purpose: handles data for a single bank account
 class BankAccount:
   name = "Default Name"
+  init_balance = 0
   balance = 0
   transactions_history = [] # the history of the transactions
 
@@ -21,6 +22,7 @@ class BankAccount:
   # Raises: none
   def __init__(self, name, init_balance):
     self.name = name
+    self.init_balance = init_balance
     self.balance = init_balance
 
   # to String
