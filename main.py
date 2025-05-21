@@ -17,23 +17,23 @@ user_input = "" # for handling the user loop
 
 # user input loop
 while user_input != "exit":
-  user_input = input("Options: print, plot, deposit, withdraw, exit: ").strip().lower() # get the user input
+    user_input = input("Options: print, plot, deposit, withdraw, exit: ").strip().lower() # get the user input
 
-  match user_input:
-    case "print":
-      interface.print_account_details(my_account) # print out the user details
-    case "p":
-      interface.print_account_details(my_account) # print out the user details
-    case "plot":
-      interface.plot_account_details(my_account)
-    case "pl":
-      interface.plot_account_details(my_account)
-    case "deposit":
-      interface.get_user_deposit(my_account) # add money
-    case "d":
-      interface.get_user_deposit(my_account) # add money
-    case "withdraw":
-      interface.get_user_withdraw(my_account) # remove money
-    case "w":
-      interface.get_user_withdraw(my_account) # remove money
+    match user_input:
+        case "print":
+            interface.print_account_details(my_account) # print out the user details
+        case "p":
+            interface.print_account_details(my_account) # print out the user details
+        case "plot":
+            interface.plot_account_details(my_account)
+        case "pl":
+            interface.plot_account_details(my_account)
+        case "deposit":
+            interface.get_user_deposit(my_account) # add money
+        case "d":
+            interface.get_user_deposit(my_account) # add money
+        case "withdraw":
+            interface.get_user_withdraw(my_account) # remove money
+        case "w":
+            interface.get_user_withdraw(my_account) # remove money
 
