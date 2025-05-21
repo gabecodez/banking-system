@@ -4,7 +4,7 @@
 # Purpose: This script handles the functions for interacting with a BankAccount
 #          object via the command line.
 
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt # type: ignore
 
 # Function name: print_account_details
 # Purpose: prints out the account details of a given account
