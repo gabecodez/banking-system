@@ -134,16 +134,72 @@ def edit_account_prompt(accounts):
             case "withdraw":
                 get_user_withdraw(current_account)
 
+# Function name: get_user_names
+# Purpose: prompts the user to provide names of valid accounts
+# Input: accounts - the list of valid account names
+# Output: given_accounts - a list of the valid accounts that the user provided
+# Raises: none
+def get_user_names(accounts):
+    valid_accounts = [] # the list of account names that will be entered by the user
+
+    # loop goes until minimum one correct account is found
+    found = False
+    counter = 0 # for tracking if an account was found on the first try
+    while found != True:
+        if counter >= 1:
+            print ("One of the accounts not found") # if no account is found in the list
+
+        account_names = input("Enter the names of the accounts you would you like to display (separate by commas): ") # get the name of the accounts to display
+        entered_account_names = account_names.split(",") # get a list of the account names
+
+        invalid_set = False # for tracking if the user entered a wrong name somewhere
+        for account_name in entered_account_names:
+            account_name = account_name.strip() # remove whitespace
+            valid_name = False
+            for account in accounts:
+                if account.name == account_name: # if name is found
+                    valid_name = True
+                    valid_accounts.append(account) # add the valid account to the list to be returned
+            if valid_name == False: # if an item could not be found in the accounts
+                invalid_set = True
+                break
+        if invalid_set == False:
+            found = True # We were successful!
+    
+    return valid_accounts
+
+# Function name: handle_print
+# Purpose: handles the printing of multiple accounts
+# Input: accounts - the list of BankAccount objects to loop through and print out
+# Output: none
+# Raises: none
+def handle_print(accounts):
+    for account in accounts:
+        print_account_details(account)
+
+# Function name: handle_plot
+# Purpose: handles the plotting of multiple accounts
+# Input: accounts - the list of BankAccount objects to loop through and plot
+# Output: none
+# Raises: none
+def handle_plot(accounts):
+    for account in accounts:
+        plot_account_details(account)
+
 # Function name: display_prompt
 # Purpose: prompts the user with different display options
 # Input: accounts - a list of all the user accounts
 # Output: none
 # Raises: none
 def display_prompt(accounts):
+    user_accounts = get_user_names(accounts)
+
     user_input = ""
     while user_input != "back" and user_input != "b":
         user_input = input("Options: print, plot, back: ") # get the user choice
 
-        # match user_input:
-        #     case "print":
-                
+        match user_input:
+            case "print":
+                handle_print(user_accounts) # print the provided accounts
+            case "plot":
+                handle_plot(user_accounts) # plot the provided accounts
