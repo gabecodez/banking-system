@@ -5,6 +5,7 @@
 #          object via the command line.
 
 import matplotlib.pyplot as plt # type: ignore
+import classes.bank_account as bank_account
 
 # Function name: print_account_details
 # Purpose: prints out the account details of a given account
@@ -72,3 +73,77 @@ def get_user_withdraw(account):
         print(e)
     else:
         print("Amount withdrawn successfully.")
+
+# Function name: get_new_user_name
+# Purpose: gets the new user name and sets it
+# Input: BankAccount account - the BankAccount object to change the name of
+# Output: none
+# Raises: none
+def get_new_user_name(account):
+    name = input("Please enter new user's name: ") # prompt the user for the name
+    account.name = name
+
+# Function name: create_bank_account_prompt
+# Purpose: gets information from the user on the bank account they want to create and\
+#          and then creates the user and adds it to the accounts list
+# Input: accounts - a list of all the accounts
+# Output: none
+# Raises: none
+def create_bank_account_prompt(accounts):
+    # setup new user account
+    name = input("Please enter new user's name: ") # prompt the user for the name
+    initial_balance = float(input("Please enter the initial balance: ")) # prompt the user for the initial balance
+    new_account = bank_account.BankAccount(name, initial_balance) # create user account
+    print("New user account created.")
+    print(new_account) # print the account
+    accounts.append(new_account) # add the account to the list of accounts
+
+# Function name: edit_account_prompt
+# Purpose: handles the menu for editing account prompts
+# Input: none
+# Output: none
+# Raises: none
+def edit_account_prompt(accounts):
+    # loop goes until a correct account is found
+    found = False
+    counter = 0 # for tracking if an account was found on the first try
+    while found != True:
+        if counter >= 1:
+            print ("Account not found") # if no account is found in the list
+
+        account_name = input("Enter the name of the account would you like to edit: ") # get the name of the account to edit
+        for index, account in enumerate(accounts):
+            if account.name == account_name:
+                found = True
+                break
+
+        counter += 1
+
+    current_account = accounts[index] # set the working account to the one tied to the name
+
+    # get the user's choice
+    user_input = ""
+    while user_input != "back" and user_input != "b":
+        user_input = input("Options: change name, deposit, withdraw, back: ")
+
+        match user_input:
+            case "change name":
+                get_new_user_name(current_account)
+            case "deposit":
+                get_user_deposit(current_account)
+            case "withdraw":
+                get_user_withdraw(current_account)
+
+# Function name: display_prompt
+# Purpose: prompts the user with different display options
+# Input: accounts - a list of all the user accounts
+# Output: none
+# Raises: none
+def display_prompt(accounts):
+    user_input = ""
+    while user_input != "back" and user_input != "b":
+        user_input = input("Options: print, plot, back: ") # get the user choice
+
+        # match user_input:
+        #     case "print":
+                
