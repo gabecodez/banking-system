@@ -1,54 +1,10 @@
-# Filename: interace.py
+# Filename: interface.py
 # Author: Gabriel Sullivan
 # Date: 2025-05-20
 # Purpose: This script handles the functions for interacting with a BankAccount
 #          object via the command line.
-
-import matplotlib.pyplot as plt # type: ignore
 import classes.bank_account as bank_account
-
-# Function name: print_account_details
-# Purpose: prints out the account details of a given account
-# Input: BankAccount account - the BankAccount object to be printed
-# Output: none
-# Raises: none
-def print_account_details(account):
-    print(account) # print the account
-    # loop through and print the transactions
-    for transaction in account.transactions_history:
-        print(transaction)
-
-# Function name: plot_account_details
-# Purpose: plots the account details of a given account using Matplotlib
-# Input: BankAccount account - the BankAccount object to be plotted
-# Output: none
-# Raises: none
-def plot_account_details(account):
-    # check to make sure that the data to plot is not empty
-    if len(account.transactions_history) <= 0:
-        print("No transactions to plot found.")
-        return
-
-    x = []
-    y = []
-
-    curr_balance = account.init_balance
-    # loop through and subtract the transactions from the initial balance and add to the list
-    for index, transaction in enumerate(account.transactions_history):
-        if transaction.successful:
-            if transaction.type == "deposit":
-                curr_balance += transaction.amount
-            elif transaction.type == "withdrawal":
-                curr_balance -= transaction.amount
-            x.append(index)
-            y.append(curr_balance)
-
-    plt.plot(x, y)
-    plt.title("Account Balance")
-    plt.xlabel("Transactions")
-    plt.ylabel("Cost")
-    plt.grid(True)
-    plt.show()
+import functions.account_display_functions as account_display_functions
 
 # Function name: get_user_deposit
 # Purpose: gets the user deposit and then submits it
@@ -56,9 +12,18 @@ def plot_account_details(account):
 # Output: none
 # Raises: none
 def get_user_deposit(account):
-    deposit_amount = float(input("Input the amount to deposit: "))
-    account.deposit(deposit_amount)
-    print("Amount deposited successfully.")
+    successful = False
+    while successful != True:
+        try:
+            deposit_amount = input("Input the amount to deposit (cancel to cancel): ")
+            if(deposit_amount == "cancel"):
+                break
+
+            account.deposit(float(deposit_amount))
+            print("Amount deposited successfully.")
+            successful = True
+        except ValueError:
+            print("Input must be a number.")
 
 # Function name: get_user_withdraw
 # Purpose: gets the user withdraw and then submits it
@@ -66,13 +31,22 @@ def get_user_deposit(account):
 # Output: none
 # Raises: none
 def get_user_withdraw(account):
-    withdraw_amount = float(input("Input the amount to withdraw: "))
-    try:
-        account.withdraw(withdraw_amount)
-    except Exception as e:
-        print(e)
-    else:
-        print("Amount withdrawn successfully.")
+    successful = False
+    while successful != True:
+        try:
+            withdraw_amount = input("Input the amount to withdraw: ")
+            if(withdraw_amount == "cancel"):
+                break
+
+            try:
+                account.withdraw(float(withdraw_amount))
+            except Exception as e:
+                print(e)
+            else:
+                print("Amount withdrawn successfully.")
+                successful = True
+        except ValueError:
+            print("Input must be a number.")
 
 # Function name: get_new_user_name
 # Purpose: gets the new user name and sets it
@@ -92,7 +66,14 @@ def get_new_user_name(account):
 def create_bank_account_prompt(accounts):
     # setup new user account
     name = input("Please enter new user's name: ") # prompt the user for the name
-    initial_balance = float(input("Please enter the initial balance: ")) # prompt the user for the initial balance
+
+    successful = False
+    while successful != True:
+        try:
+            initial_balance = float(input("Please enter the initial balance: ")) # prompt the user for the initial balance
+            successful = True
+        except ValueError:
+            print("Input must be a number.")
     new_account = bank_account.BankAccount(name, initial_balance) # create user account
     print("New user account created.")
     print(new_account) # print the account
@@ -150,21 +131,28 @@ def get_user_names(accounts):
             print ("One of the accounts not found") # if no account is found in the list
 
         account_names = input("Enter the names of the accounts you would you like to display (separate by commas): ") # get the name of the accounts to display
-        entered_account_names = account_names.split(",") # get a list of the account names
-
-        invalid_set = False # for tracking if the user entered a wrong name somewhere
-        for account_name in entered_account_names:
-            account_name = account_name.strip() # remove whitespace
-            valid_name = False
+        if account_names.strip().lower() == "all":
+            # add all accounts
             for account in accounts:
-                if account.name == account_name: # if name is found
-                    valid_name = True
-                    valid_accounts.append(account) # add the valid account to the list to be returned
-            if valid_name == False: # if an item could not be found in the accounts
-                invalid_set = True
-                break
-        if invalid_set == False:
-            found = True # We were successful!
+                valid_accounts.append(account) # add the valid account to the list to be returned
+            found = True
+        else:
+            entered_account_names = account_names.split(",") # get a list of the account names
+
+            invalid_set = False # for tracking if the user entered a wrong name somewhere
+            for account_name in entered_account_names:
+                account_name = account_name.strip() # remove whitespace
+
+                valid_name = False
+                for account in accounts:
+                    if account.name == account_name: # if name is found
+                        valid_name = True
+                        valid_accounts.append(account) # add the valid account to the list to be returned
+                if valid_name == False: # if an item could not be found in the accounts
+                    invalid_set = True
+                    break
+            if invalid_set == False:
+                found = True # We were successful!
     
     return valid_accounts
 
@@ -175,7 +163,7 @@ def get_user_names(accounts):
 # Raises: none
 def handle_print(accounts):
     for account in accounts:
-        print_account_details(account)
+        account_display_functions.print_account_details(account)
 
 # Function name: handle_plot
 # Purpose: handles the plotting of multiple accounts
@@ -184,7 +172,7 @@ def handle_print(accounts):
 # Raises: none
 def handle_plot(accounts):
     for account in accounts:
-        plot_account_details(account)
+        account_display_functions.plot_account_details(account)
 
 # Function name: display_prompt
 # Purpose: prompts the user with different display options
